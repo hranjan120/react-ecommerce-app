@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { Container, Row, Col, Carousel } from 'react-bootstrap';
 import { BagFill, Apple, BugFill } from 'react-bootstrap-icons';

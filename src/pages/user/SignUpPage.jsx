@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import PageTitleComp from "../../components/PageTitleComp"
 import { Container, Row, Col } from 'react-bootstrap';
