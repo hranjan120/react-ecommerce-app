@@ -8,8 +8,8 @@ export const userObjSlice = createSlice({
         address: 'ashok nagar'
     },
     reducers: {
-        updateName: (state) => {
-            state.name = 'hello';
+        updateName: (state, action) => {
+            state.name = action.payload || 'hello';
         },
         updateAge: (state) => {
             state.age = 28;

@@ -3,10 +3,16 @@ import PageTitleComp from "../components/PageTitleComp"
 import logo64 from '../assets/logo256.png';
 import { useDispatch, useSelector } from "react-redux";
 import { updateAll, updateName, updateAge, updateAddress } from "../redux/userSlice";
+import debounce from 'debounce';
 
 export default function AboutUsPage() {
     const { userObj } = useSelector((state) => state);
     const dispatch = useDispatch();
+
+    const handleTextKeyUp = debounce((e) => {
+        const val = e.target.value;
+        dispatch(updateName(val));
+    }, 1000);
 
     return (
         <>
@@ -36,6 +42,13 @@ export default function AboutUsPage() {
                         <button className='btn btn-sm btn-success m-1' onClick={() => dispatch(updateAll({ name: 'my new name', age: 90, address: 'tada address' }))}>
                             update All
                         </button>
+                    </Col>
+
+                    <Col xs={6} md={6} lg={6} className='mt-52 mb-5'>
+                        <div className="mb-3 mt-3">
+                            <label className="form-label">Type Text to check Debounce:</label>
+                            <input type="text" className="form-control" placeholder="Debounce Example" onKeyUp={handleTextKeyUp} />
+                        </div>
                     </Col>
                 </Row>
             </Container>
