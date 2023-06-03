@@ -51,7 +51,7 @@ function ContactPage() {
             }
         }
     });
-    renderCount++;
+
     return (
         <>
             <PageTitleComp title={'Contact Us'} />
