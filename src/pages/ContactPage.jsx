@@ -1,16 +1,57 @@
 import PageTitleComp from "../components/PageTitleComp"
 import { Container, Row, Col } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-
+import { useForm, useFieldArray } from 'react-hook-form';
 import contact_us_re_4qqt from '../assets/contact_us_re_4qqt.svg'
+
 
 function ContactPage() {
 
-    const { handleSubmit, register, formState: { errors }, } = useForm();
+    const { control, handleSubmit, register, formState: { errors }, reset } = useForm({
+        defaultValues: {
+            fullName: 'himanshu ranjan',
+            userEmail: 'admin@gmail.com',
+            userMobile: '9876543210',
+            genderRadio: 'Male',
+            address: {
+                userAddress1: '',
+                userAddress2: ''
+            },
+            mobile: [{ model: "", ram: "" }],
+        }
+    });
     const onSubmitContactFrm = (values) => {
         console.log(values);
+        reset({
+            fullName: '',
+            userEmail: '',
+            userMobile: '',
+            userMsg: '',
+            genderRadio: '',
+            address: {
+                userAddress1: '',
+                userAddress2: ''
+            },
+            mobile: [{ model: "", ram: "" }],
+        });
     };
 
+    const { fields, append, remove } = useFieldArray({
+        name: "mobile",
+        control,
+        rules: {
+            required: true,
+            // minLength: 2,
+            // maxLength: 10,
+            validate: (fieldArrayValues) => {
+                for (let i = 0; i < fieldArrayValues.length; i++) {
+                    if (fieldArrayValues[i].model === '' || fieldArrayValues[i].ram === '') {
+                        return `Provide valid Ram and Model`;
+                    }
+                }
+            }
+        }
+    });
+    renderCount++;
     return (
         <>
             <PageTitleComp title={'Contact Us'} />
@@ -74,6 +115,49 @@ function ContactPage() {
                                 <label className="form-check-label" htmlFor="radio2"></label>
                             </div>
                             <div className="invalid-feedback1">{errors.genderRadio ? errors.genderRadio.message : ''}</div>
+
+
+                            <div className="mt-2">
+                                <label htmlFor="userAddress1" className="form-label">Address 1:</label>
+                                <input type="text" className="form-control" name="userAddress1" id="userAddress1" {...register("address.userAddress1", {
+                                    required: "Address 1 required.",
+                                })} />
+                                <div className="invalid-feedback1">{errors.address?.userAddress1 ? errors.address?.userAddress1.message : ''}</div>
+                            </div>
+                            <div className="mt-2">
+                                <label htmlFor="userAddress2" className="form-label">Address 2:</label>
+                                <input type="text" className="form-control" name="userAddress2" id="userAddress2" {...register("address.userAddress2", {
+                                    required: "Address 2 required.",
+                                })} />
+                                <div className="invalid-feedback1">{errors.address?.userAddress2 ? errors.address?.userAddress2.message : ''}</div>
+                            </div>
+
+                            <hr />
+                            <button type="button" className="btn btn-primary btn-sm mb-2"
+                                onClick={() => append({ model: "", ram: "" })}>
+                                Add Mobile
+                            </button>
+                            {fields.map((field, index) => (
+                                <div key={field.id}>
+                                    <input
+                                        type="text" className="form-control mt-2"
+                                        {...register(`mobile.${index}.model`)}
+                                        placeholder="Mobile Model"
+                                    />
+                                    <input
+                                        type="text" className="form-control mt-2"
+                                        {...register(`mobile.${index}.ram`)}
+                                        placeholder="Mobile Ram"
+                                    />
+                                    {index > 0 && (
+                                        <button className="btn btn-danger btn-sm mb-3" type="button" onClick={() => remove(index)}>
+                                            Remove
+                                        </button>
+                                    )}
+
+                                    <div className="invalid-feedback1">{errors?.mobile?.root?.message}</div>
+                                </div>
+                            ))}
                             <div className="d-grid">
                                 <button type="submit" className="btn btn-success btn-block mt-3">Submit</button>
                             </div>
