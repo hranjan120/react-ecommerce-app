@@ -300,3 +300,31 @@ footer {
         padding: 1px 5px 1px 5px;
         border-radius: 10px;
     }
+
+    .notification-top-bar {
+        /* position: fixed; */
+        top: 0;
+        left: 0;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        background: #f76d6d;
+        text-align: center;
+        color: #FFFFFF;
+        font-family: sans-serif;
+        font-weight: lighter;
+        font-size: 18px;
+        z-index: 10;
+      }
+      .notification-top-bar p {
+        padding: 0;
+        margin: 0;
+      }
+      .notification-top-bar p a {
+        padding: 5px 10px;
+        border-radius: 3px;
+        background: #FFF;
+        color: #f76d6d;
+        font-weight: bold;
+        text-decoration: none;
+      }

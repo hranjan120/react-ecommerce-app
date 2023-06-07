@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import PropTypes from "prop-types";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,14 +13,25 @@ import { CartFill } from 'react-bootstrap-icons';
 function HeaderComp(props) {
     const dispatch = useDispatch();
     const { themeColor } = props;
-    // console.log('themeColor', themeColor);
+    console.log('themeColor', themeColor);
     const { userAuth, userCart } = useSelector((state) => state);
 
     const isAuthenticated = userAuth.isLoggedIn;
     const userName = userAuth.userProfile.userName;
+    const [netStatus, setNetStatus] = useState(true);
+
+    useEffect(() => {
+        window.addEventListener('online', () => setNetStatus(true))
+        window.addEventListener('offline', () => setNetStatus(false))
+    }, [])
 
     return (
         <>
+            {!netStatus ? <>
+                <div className="notification-top-bar">
+                    <p>Please check your internet connection, <small> Reload after connection back</small></p>
+                </div>
+            </> : ''}
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container>
                     <Link className='navbar-brand' to="/">
