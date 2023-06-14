@@ -14,6 +14,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
     "debounce": "^1.2.1",
+    "framer-motion": "^10.12.16",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-icons": "^1.10.3",
