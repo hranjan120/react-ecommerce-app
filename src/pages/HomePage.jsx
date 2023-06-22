@@ -5,6 +5,7 @@ import { fetchMainCategory } from "../redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import MultiCarousel from "../components/MultiCarousel";
+import LazyLoad from 'react-lazy-load';
 
 export default function HomePage() {
     const { productData } = useSelector((state) => state);
@@ -19,25 +20,32 @@ export default function HomePage() {
         <>
             <Carousel>
                 <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="https://picsum.photos/1200/250"
-                        alt="First slide"
-                    />
+                    <LazyLoad height={250}>
+                        <img
+                            className="d-block w-100"
+                            src="https://picsum.photos/1200/250"
+                            alt="First slide"
+                        />
+                    </LazyLoad>
+
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="https://picsum.photos/1200/250"
-                        alt="Second slide"
-                    />
+                    <LazyLoad height={250}>
+                        <img
+                            className="d-block w-100"
+                            src="https://picsum.photos/1200/250"
+                            alt="Second slide"
+                        />
+                    </LazyLoad>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img
-                        className="d-block w-100"
-                        src="https://picsum.photos/1200/250"
-                        alt="Third slide"
-                    />
+                    <LazyLoad height={250}>
+                        <img
+                            className="d-block w-100"
+                            src="https://picsum.photos/1200/250"
+                            alt="Third slide"
+                        />
+                    </LazyLoad>
                 </Carousel.Item>
             </Carousel>
 

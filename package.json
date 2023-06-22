@@ -20,6 +20,7 @@
     "react-bootstrap-icons": "^1.10.3",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
+    "react-lazy-load": "^4.0.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.2"
   },

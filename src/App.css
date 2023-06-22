@@ -328,3 +328,13 @@ footer {
         font-weight: bold;
         text-decoration: none;
       }
+
+      /*-------*/
+      .LazyLoad {
+        opacity: 0;
+        transition: all 1s ease-in-out;
+        background-color: #bfb7b7;
+      }
+      .is-visible {
+        opacity: 1;
+      }
