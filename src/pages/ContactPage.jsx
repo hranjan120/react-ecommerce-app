@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import PageTitleComp from "../components/PageTitleComp"
 import { Container, Row, Col } from 'react-bootstrap';
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -5,6 +6,7 @@ import contact_us_re_4qqt from '../assets/contact_us_re_4qqt.svg'
 
 
 function ContactPage() {
+    const [picture, setPicture] = useState(null);
 
     const { control, handleSubmit, register, formState: { errors }, reset } = useForm({
         defaultValues: {
@@ -52,6 +54,23 @@ function ContactPage() {
         }
     });
 
+
+    /*----------------*/
+    const onChangePicture = (e) => {
+        setPicture(URL.createObjectURL(e.target.files[0]));
+    };
+    const { handleSubmit: handleSubmit2, register: register2, formState: { errors: errors2 } } = useForm();
+    const onSubmitFileFrm = (values) => {
+        console.log(values);
+        // console.log(values.file[0]);
+        // const formData = new FormData();
+        // formData.append('file', data.file[0]);
+        // const res = await fetch('http://localhost:3001/files', {
+        //     method: 'POST',
+        //     body: formData,
+        // }).then((res) => res.json());
+    };
+
     return (
         <>
             <PageTitleComp title={'Contact Us'} />
@@ -59,6 +78,36 @@ function ContactPage() {
                 <Row>
                     <Col xs={6} md={6} lg={6} className='mt-4 mb-4 p-5'>
                         <img className='img-fluid' src={contact_us_re_4qqt} alt="Contact" />
+
+                        <form onSubmit={handleSubmit2(onSubmitFileFrm)}>
+                            <div className="mt-2">
+                                <label htmlFor="fileName" className="form-label">File Name:</label>
+                                <input type="text" className="form-control" name="fileName" id="fileName" {...register2("fileName", {
+                                    required: "Full name is required.",
+                                    pattern: {
+                                        value: /^[a-zA-Z\-\s]+$/i,
+                                        message: 'Provide Valid full Name',
+                                    }
+                                })} />
+                                <div className="invalid-feedback1">{errors2.fileName ? errors2.fileName.message : ''}</div>
+                            </div>
+                            <div className="mt-2">
+                                <label htmlFor="userFile" className="form-label">User File:</label>
+                                <input type="file" className="form-control" name="userFile" id="userFile" {...register2("userFile", {
+                                    required: "File is required.",
+                                    pattern: {
+                                        value: /^[a-zA-Z\-\s]+$/i,
+                                        message: 'Provide Valid File',
+                                    }
+                                })} onChange={onChangePicture} />
+                                <div className="invalid-feedback1">{errors2.userFile ? errors2.userFile.message : ''}</div>
+                                <img className="image" src={picture && picture} alt="Img" height={'100'} />
+                            </div>
+
+                            <div className="d-grid">
+                                <button type="submit" className="btn btn-success btn-block mt-3">Submit File</button>
+                            </div>
+                        </form>
                     </Col>
                     <Col xs={6} md={6} lg={6} className='mt-4 mb-4 p-5'>
                         <form onSubmit={handleSubmit(onSubmitContactFrm)}>

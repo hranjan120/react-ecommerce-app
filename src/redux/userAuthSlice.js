@@ -26,7 +26,8 @@ export const userSignIn = createAsyncThunk('userSignIn', async (data, { rejectWi
         const response = await axios.post(`${import.meta.env.VITE_API_USER}v1/user-signin`, data, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true
         });
         return response.data;
     } catch (err) {
@@ -42,7 +43,8 @@ export const fetchUserProfile = createAsyncThunk('fetchUserProfile', async (data
         const response = await axios.get(`${import.meta.env.VITE_API_USER}v1/get-user-profile`, {
             headers: {
                 'Authorization': localStorage.getItem('yumUserToken')
-            }
+            },
+            withCredentials: true
         });
         return response.data;
     } catch (err) {
@@ -61,6 +63,7 @@ export const userAuthSlice = createSlice({
         isLoggedIn: localStorage.getItem('yumUserToken') || false,
         userProfile: (localStorage.getItem('yumUserProfile')) ? JSON.parse(localStorage.getItem('yumUserProfile')) : {},
         authToken: localStorage.getItem('yumUserToken') || null,
+        userDashProfile: {},
         error: '',
         msg: ''
     },
@@ -118,17 +121,32 @@ export const userAuthSlice = createSlice({
         })
         builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
             state.loading = false;
-            state.singleProductData = action.payload.payload.productDetail;
+            state.userDashProfile = action.payload.payload.userData;
             state.error = '';
         })
         builder.addCase(fetchUserProfile.rejected, (state, action) => {
             state.loading = false;
-            state.singleProductData = {};
+            state.userDashProfile = {};
             state.error = action.payload?.message || action.error?.message;
         })
     },
 });
 
+/*-----------*/
+axios.interceptors.response.use(function (response) {
+    //console.log('Do something with response data');
+    return response;
+}, function (error) {
+    if (error?.response?.status === 403) {
+        console.log('Do something with 403 response, get new token and set in localstorage');
+        localStorage.removeItem('yumUserToken');
+        localStorage.removeItem('yumUserProfile');
+        window.location.href = '/';
+    }
+    return Promise.reject(error);
+});
+
+/*-----------*/
 export const { userLogout, clearError } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;

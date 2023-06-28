@@ -1,6 +1,21 @@
+import { useState, useEffect } from 'react';
 import { Table, Badge, Button } from 'react-bootstrap';
+import { fetchUserProfile } from "../../redux/userAuthSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function DashboardPage() {
+    const [userProfile, setUserProfile] = useState({});
+    const { userAuth } = useSelector((state) => state);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        setUserProfile(userAuth.userDashProfile);
+    }, [userAuth.userDashProfile]);
+
+    useEffect(() => {
+        dispatch(fetchUserProfile())
+    }, []);
     return (
         <>
             <Table striped bordered hover>
@@ -35,6 +50,7 @@ function DashboardPage() {
                     </tr>
                 </tbody>
             </Table>
+            <p>{JSON.stringify(userProfile)}</p>
         </>
     );
 }
